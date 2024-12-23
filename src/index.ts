@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://notemaking1405.netlify.app/",
+    origin: "https://notemaking1405.netlify.app",
     credentials: true,
   })
 );
