@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from "mongoose";
 
 interface IUser extends Document {
   name: string;
-  dob: string;
+  dob: Date;
   emailId: string;
   otp: string;
   isVerified: boolean;
@@ -14,7 +14,7 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
     type: String,
   },
   dob: {
-    type: String,
+    type: Date,
   },
   emailId: {
     type: String,
