@@ -92,8 +92,10 @@ noteRoute.get("/getNotes", verifyToken, async (req: Request, res: Response) => {
 
     // Return the notes if found
     res.status(200).json({
-      noteData,
+        message:"Notes fetched sucessfully",
+        note:noteData,
     });
+    console.log(noteData)
   } catch (error) {
     console.error("Error fetching notes:", error);
     res.status(500).json({
