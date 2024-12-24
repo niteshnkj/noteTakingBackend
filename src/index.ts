@@ -18,7 +18,7 @@ app.use(cookieParser());
 //prod
 app.use(
   cors({
-    origin: "https://warm-pika-31d5db.netlify.app",
+    origin: "https://notetaking1405.netlify.app/",
     credentials: true,
   })
 );
