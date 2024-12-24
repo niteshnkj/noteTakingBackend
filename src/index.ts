@@ -18,17 +18,18 @@ app.use(cookieParser());
 //prod
 app.use(
   cors({
-    origin: "https://notemaking1405.netlify.app",
+    origin: "https://warm-pika-31d5db.netlify.app",
     credentials: true,
   })
 );
 // dev
 // app.use(
 //   cors({
-//     origin: "http://localhost:5173",
+//     origin:"http://localhost:5173",
 //     credentials: true,
 //   })
 // );
+
 
 
 // Use routes
