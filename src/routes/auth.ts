@@ -119,7 +119,7 @@ authRouter.post("/signIn", async (req: Request, res: Response) => {
     const otp = generateOTP();
     await sendUserOTP(user, otp, emailId);
     const userId: any = user._id;
-    generateToken(userId, user.name, user.emailId, res);
+    // generateToken(userId, user.name, user.emailId, res);
 
     res.status(200).json({ message: "OTP sent to your email" });
   } catch (error) {
