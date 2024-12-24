@@ -77,11 +77,11 @@ noteRoute.delete(
 noteRoute.get("/getNotes", verifyToken, async (req: Request, res: Response) => {
   try {
     // Check if the user is authenticated
-    const userId: any = req.user?.id;
-    if (!userId) {
+    const loggedInUser = req.user;
+    if (!loggedInUser) {
       return res.status(401).json({ message: "User not authenticated" });
     }
-
+    const userId: any  = loggedInUser.id; 
     // Fetch the notes for the authenticated user
     const noteData = await notes.find({ userId });
 
