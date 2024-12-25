@@ -1,0 +1,7 @@
+- in terminal npm install
+- create a .env file in root folder and paste .env.example variables.
+- and then open terminal and run dev command
+- Dev: npm run dev
+- Build: npm run build
+- as this was the part of assignment so i have kept originial credentials as intact 
+- production Url:- https://notetakingbackend-hxec.onrender.com/
