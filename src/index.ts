@@ -18,7 +18,7 @@ app.use(cookieParser());
 // prod
 app.use(
   cors({
-    origin: "https://notetaking1405.netlify.app/",
+    origin: "https://notetaking1405.netlify.app",
     credentials: true,
     methods:['GET','PUT','POST','DELETE','OPTIONS'],
     allowedHeaders:[
