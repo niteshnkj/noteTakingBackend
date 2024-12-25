@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 import { notes } from "../models/notes";
-import verifyToken from "../middleware/verifyToken";
+import { userAuth } from "../middleware/userAuth";
+
 const noteRoute: any = Router();
 
 
@@ -8,11 +9,11 @@ const noteRoute: any = Router();
 
 noteRoute.post(
   "/createNote",
-  verifyToken,
+  userAuth,
   async (req: Request, res: Response) => {
     try {
       const { title } = req.body;
-      const userId: any = req.user?.id;
+      const userId: any = req.user?._id;
 
       // Check if userId is available
       if (!userId) {
@@ -47,7 +48,7 @@ noteRoute.post(
 
 noteRoute.delete(
   "/deleteNote/:id",
-  verifyToken,
+  userAuth,
   async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
@@ -74,14 +75,14 @@ noteRoute.delete(
 );
 
 
-noteRoute.get("/getNotes", verifyToken, async (req: Request, res: Response) => {
+noteRoute.get("/getNotes", userAuth, async (req: Request, res: Response) => {
   try {
     // Check if the user is authenticated
     const loggedInUser = req.user;
     if (!loggedInUser) {
       return res.status(401).json({ message: "User not authenticated" });
     }
-    const userId: any  = loggedInUser.id; 
+    const userId: any  = loggedInUser._id; 
     // Fetch the notes for the authenticated user
     const noteData = await notes.find({ userId });
 

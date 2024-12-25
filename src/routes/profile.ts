@@ -1,11 +1,11 @@
 import { Request, Response, Router } from "express";
-import verifyToken from "../middleware/verifyToken";
+import { userAuth } from "../middleware/userAuth";
 import User from "../models/user";
 const profileRoute: any = Router();
 
 
 
-profileRoute.get("/view", verifyToken, async (req: Request, res: Response) => {
+profileRoute.get("/view", userAuth, async (req: Request, res: Response) => {
   try {
     
     const loggedInUser = req.user;
@@ -13,7 +13,7 @@ profileRoute.get("/view", verifyToken, async (req: Request, res: Response) => {
       return res.status(401).json({ message: "Unauthorized access" });
     }
 
-    const userId: any  = loggedInUser.id; 
+    const userId: any  = loggedInUser._id; 
     const userData = await User.findById(userId); 
 
     if (!userData) {

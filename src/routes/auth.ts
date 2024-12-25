@@ -1,7 +1,7 @@
 import User from "../models/user";
 import { Router, Request, Response } from "express";
 import { sendOTP } from "../utils/emailServices";
-import generateToken from "../utils/generateToken";
+
 const authRouter: any = Router();
 import crypto from "crypto";
 
@@ -93,9 +93,11 @@ authRouter.post("/verify-otp", async (req: Request, res: Response) => {
     if (result.status === 400) {
       return res.status(result.status).json({ message: result.message });
     }
-
-    const userId: any = user._id;
-    generateToken(userId, user.name, user.emailId, res);
+    if(result){
+      const generatejwtToken = await user.getJwt();
+      res.cookie("token", generatejwtToken, {
+        expires: new Date(Date.now() + 86400000),
+      })}
     const { otp: _, ...userWithoutOtp } = user.toObject();
     res.status(200).json({
       message: "User verified successfully",
@@ -118,9 +120,8 @@ authRouter.post("/signIn", async (req: Request, res: Response) => {
 
     const otp = generateOTP();
     await sendUserOTP(user, otp, emailId);
-    const userId: any = user._id;
+    // const userId: any = user._id;
     // generateToken(userId, user.name, user.emailId, res);
-
     res.status(200).json({ message: "OTP sent to your email" });
   } catch (error) {
     console.error("Error sending OTP for login:", error);
@@ -143,12 +144,15 @@ authRouter.post("/verify-signInotp", async (req: Request, res: Response) => {
     }
 
     const result = await verifyUserOTP(user, otp);
+    console.log(result);
     if (result.status === 400) {
       return res.status(result.status).json({ message: result.message });
     }
-
-    const userId: any = user._id;
-    generateToken(userId, user.name, user.emailId, res);
+if(result){
+    const generatejwtToken = await user.getJwt();
+    res.cookie("token", generatejwtToken, {
+      expires: new Date(Date.now() + 86400000),
+    })}
 
     const { otp: _, ...userWithoutOtp } = user.toObject();
     res.status(200).json({
@@ -162,18 +166,10 @@ authRouter.post("/verify-signInotp", async (req: Request, res: Response) => {
 });
 
 authRouter.post("/logout", (req: Request, res: Response) => {
-  try {
-    res.cookie("jwt", "", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", 
-      sameSite: "strict",
-      expires: new Date(0),
+    res.cookie("token", null, {
+      expires: new Date(Date.now()),
     });
     res.status(200).json({ message: "Logged out successfully" });
-  } catch (error) {
-    console.error("Error during logout:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
 });
 
 export default authRouter;
