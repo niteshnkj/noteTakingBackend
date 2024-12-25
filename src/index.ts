@@ -20,6 +20,12 @@ app.use(
   cors({
     origin: "https://notetaking1405.netlify.app/",
     credentials: true,
+    methods:['GET','PUT','POST','DELETE','OPTIONS'],
+    allowedHeaders:[
+      'Access-Control-Allow-Origin',
+      'Content-Type',
+      'Authorization',
+    ]
   })
 );
 // app.use(
