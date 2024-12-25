@@ -97,8 +97,8 @@ authRouter.post("/verify-otp", async (req: Request, res: Response) => {
       const generatejwtToken = await user.getJwt();
       res.cookie("token", generatejwtToken, {
         expires: new Date(Date.now() + 86400000),
-        secure: process.env.ENVIRONMENT === 'LIVE',
-        sameSite: process.env.ENVIRONMENT === 'LIVE' ? 'none' : 'lax',
+        secure: true,
+        sameSite: "none",
         httpOnly: true,
       })
     }
@@ -156,7 +156,7 @@ authRouter.post("/verify-signInotp", async (req: Request, res: Response) => {
       const generatejwtToken = await user.getJwt();
       res.cookie("token", generatejwtToken, {
         expires: new Date(Date.now() + 86400000),
-        secure:true,
+        secure: true,
         sameSite: "none",
         httpOnly: true,
       })
@@ -176,6 +176,9 @@ authRouter.post("/verify-signInotp", async (req: Request, res: Response) => {
 authRouter.post("/logout", (req: Request, res: Response) => {
   res.cookie("token", null, {
     expires: new Date(Date.now()),
+    secure: true,
+    sameSite: "none",
+    httpOnly: true,
   });
   res.status(200).json({ message: "Logged out successfully" });
 });
