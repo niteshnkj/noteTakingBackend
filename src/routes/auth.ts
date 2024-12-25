@@ -157,7 +157,7 @@ authRouter.post("/verify-signInotp", async (req: Request, res: Response) => {
       res.cookie("token", generatejwtToken, {
         expires: new Date(Date.now() + 86400000),
         secure: process.env.ENVIRONMENT === 'LIVE',
-        sameSite: process.env.ENVIRONMENT === 'LIVE' ? 'none' : 'lax',
+        sameSite: "none",
         httpOnly: true,
       })
     }
